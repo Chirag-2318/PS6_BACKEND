@@ -9,7 +9,6 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class BufferState {
     private List<List<Vehicle>> bufferLines;
     private List<Integer> bufferCapacities;
