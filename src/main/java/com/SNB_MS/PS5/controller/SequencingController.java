@@ -20,21 +20,16 @@ public class SequencingController {
     private SequencingService sequencingService;
 
     @PostMapping("/oven-exit")
-    public ResponseEntity<OvenExitResponse> handleOvenExit(
-            @Valid @RequestBody OvenExitRequest request) {
-        OvenExitResponse response = sequencingService.assignBufferLine(request);
-        return ResponseEntity.ok(response);
+    public int handleOvenExit(@Valid @RequestBody OvenExitRequest request) {
+        int response = sequencingService.determineBufferLine(request.getBufferLines(), request.getIncomingVehicle(), request.getLastVehiclesInLines(), request.getLineAvailability());
+        return response;
     }
 
     @PostMapping("/select-for-painting")
-    public ResponseEntity<PaintingResponse> selectForPainting(
-            @Valid @RequestBody PaintingRequest request) {
-        PaintingResponse response = sequencingService.selectVehicleForPainting(request);
-        return ResponseEntity.ok(response);
+    public int selectForPainting(@Valid @RequestBody PaintingRequest request) {
+        int response = sequencingService.determineVehicleForPainting(request.getBufferLines(), request.getCurrentOvenColor(), request.getLineAvailability());
+        return response;
     }
 
-    @GetMapping("/health")
-    public ResponseEntity<String> health() {
-        return ResponseEntity.ok("Smart Sequencing Service is running");
-    }
+
 }
